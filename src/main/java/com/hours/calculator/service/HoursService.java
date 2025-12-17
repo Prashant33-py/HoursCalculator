@@ -3,7 +3,6 @@ package com.hours.calculator.service;
 import com.hours.calculator.dto.RequestObj;
 import com.hours.calculator.model.Cycle;
 import com.hours.calculator.model.LoginTime;
-import com.hours.calculator.model.LogoutTime;
 import com.hours.calculator.model.WorkingHours;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -11,9 +10,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class HoursService {
 
-    public ResponseEntity<LogoutTime> calculateLogoutTime(RequestObj obj) {
-        System.out.println(obj);
-
+    public ResponseEntity<String> calculateLogoutTime(RequestObj obj) {
         WorkingHours workingHours = obj.getWorkingHours();
         LoginTime loginTime = obj.getLoginTime();
         int logoutHours = loginTime.getLoginHour();
@@ -33,10 +30,8 @@ public class HoursService {
             }
             logoutHours++;
         }
-
-        System.out.println(logoutHours+ ":" +logoutMins+" "+cycle);
-
-        return ResponseEntity.ok().body(LogoutTime.builder().logoutHour(logoutHours).logoutMin(logoutMins).cycle(cycle).build());
+        String formattedMin = (logoutMins < 10) ? "0" + logoutMins : String.valueOf(logoutMins);
+        return ResponseEntity.ok().body("Logout Time is: " + logoutHours + ":" + formattedMin + " " + cycle);
     }
 
 }
