@@ -5,8 +5,11 @@ import com.hours.calculator.service.HoursService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Map;
+
 @RestController
 @RequestMapping("/api/hours")
+@CrossOrigin(origins = "http://localhost:5173")
 public class HoursController {
 
     private final HoursService hoursService;
@@ -15,8 +18,8 @@ public class HoursController {
         this.hoursService = service;
     }
 
-    @GetMapping
-    public ResponseEntity<String> getLogoutTime(@RequestBody RequestObj obj){
+    @PostMapping
+    public ResponseEntity<Map<String, String>> getLogoutTime(@RequestBody RequestObj obj){
         return hoursService.calculateLogoutTime(obj);
     }
 

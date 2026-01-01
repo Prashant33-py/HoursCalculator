@@ -7,10 +7,12 @@ import com.hours.calculator.model.WorkingHours;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.Map;
+
 @Service
 public class HoursService {
 
-    public ResponseEntity<String> calculateLogoutTime(RequestObj obj) {
+    public ResponseEntity<Map<String, String>> calculateLogoutTime(RequestObj obj) {
         WorkingHours workingHours = obj.getWorkingHours();
         LoginTime loginTime = obj.getLoginTime();
         int logoutHours = loginTime.getLoginHour();
@@ -31,7 +33,8 @@ public class HoursService {
             logoutHours++;
         }
         String formattedMin = (logoutMins < 10) ? "0" + logoutMins : String.valueOf(logoutMins);
-        return ResponseEntity.ok().body("Logout Time is: " + logoutHours + ":" + formattedMin + " " + cycle);
+        String logoutString = "Logout Time is: " + logoutHours + ":" + formattedMin + " " + cycle;
+        return ResponseEntity.ok().body(Map.of("logoutTime", logoutString));
     }
 
 }
